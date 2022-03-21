@@ -44,9 +44,9 @@ edited string -- the ISO 8601 date format of the time that this resource was edi
     birth_year = db.Column(db.String(50), unique=False, nullable=True)
     eye_color = db.Column(db.String(20), unique=False, nullable=True)
     gender = db.Column(db.String(20), unique=False, nullable=True)
-    # hair_color = db.Column(db.String(20), unique=False, nullable=True)
-    # height = db.Column(db.Integer, unique=False, nullable=False)
-    # mass = db.Column(db.String(20), unique=False, nullable=True)
+    hair_color = db.Column(db.String(20), unique=False, nullable=True)
+    height = db.Column(db.Integer, unique=False, nullable=False)
+    mass = db.Column(db.String(20), unique=False, nullable=True)
 
 
     
@@ -57,9 +57,9 @@ edited string -- the ISO 8601 date format of the time that this resource was edi
             "birth_year": self.birth_year,
             "eye_color": self.eye_color,
             "gender": self.gender,
-            # "hair_color": self.hair_color,
-            # "height": self.height,
-            # "mass": self.mass,
+            "hair_color": self.hair_color,
+            "height": self.height,
+            "mass": self.mass,
        
         }
 
