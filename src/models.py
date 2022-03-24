@@ -8,6 +8,8 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     favorite_people = db.relationship("FavoritePeople")
+    favorite_planet = db.relationship("FavoritePlanet")
+
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -16,7 +18,9 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "favorite_people": self.favorite_people
+            "favorite_people": self.favorite_people,
+            # "favorite_planet": self.favorite_planet
+
 
             # do not serialize the password, its a security breach
         }
@@ -97,20 +101,20 @@ class Vehicle(db.Model):
 
     
 class Planets(db.Model):
-        # name string -- The name of this planet.
-        # diameter string -- The diameter of this planet in kilometers.
-        # rotation_period string -- The number of standard hours it takes for this planet to complete a single rotation on its axis.
-        # orbital_period string -- The number of standard days it takes for this planet to complete a single orbit of its local star.
-        # gravity string -- A number denoting the gravity of this planet, where "1" is normal or 1 standard G. "2" is twice or 2 standard Gs. "0.5" is half or 0.5 standard Gs.
-        # population string -- The average population of sentient beings inhabiting this planet.
-        # climate string -- The climate of this planet. Comma separated if diverse.
-        # terrain string -- The terrain of this planet. Comma separated if diverse.
-        # surface_water string -- The percentage of the planet surface that is naturally occurring water or bodies of water.
-        # residents array -- An array of People URL Resources that live on this planet.
-        # films array -- An array of Film URL Resources that this planet has appeared in.
-        # url string -- the hypermedia URL of this resource.
-        # created string -- the ISO 8601 date format of the time that this resource was created.
-        # edited string -- the ISO 8601 date format of the time that this resource was edited.
+    # name string -- The name of this planet.
+    # diameter string -- The diameter of this planet in kilometers.
+    # rotation_period string -- The number of standard hours it takes for this planet to complete a single rotation on its axis.
+    # orbital_period string -- The number of standard days it takes for this planet to complete a single orbit of its local star.
+    # gravity string -- A number denoting the gravity of this planet, where "1" is normal or 1 standard G. "2" is twice or 2 standard Gs. "0.5" is half or 0.5 standard Gs.
+    # population string -- The average population of sentient beings inhabiting this planet.
+    # climate string -- The climate of this planet. Comma separated if diverse.
+    # terrain string -- The terrain of this planet. Comma separated if diverse.
+    # surface_water string -- The percentage of the planet surface that is naturally occurring water or bodies of water.
+    # residents array -- An array of People URL Resources that live on this planet.
+    # films array -- An array of Film URL Resources that this planet has appeared in.
+    # url string -- the hypermedia URL of this resource.
+    # created string -- the ISO 8601 date format of the time that this resource was created.
+    # edited string -- the ISO 8601 date format of the time that this resource was edited.
 
     id = db.Column(db.Integer, primary_key= True)
     name = db.Column(db.String(50),unique=True,nullable=False)
@@ -125,8 +129,15 @@ class Planets(db.Model):
 
 
 class FavoritePeople(db.Model):
-    user_id = db.Column(db.ForeignKey('user.id'), primary_key=True)
-    people_id = db.Column(db.ForeignKey('people.id'), primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True)
+    people_id = db.Column(db.Integer,db.ForeignKey('people.id'), primary_key=True)
+    parent = db.relationship("User", back_populates="favorite_people")
     child = db.relationship("People")
 
+
+class FavoritePlanet(db.Model):
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True)
+    planet_id = db.Column(db.Integer,db.ForeignKey('planets.id'), primary_key=True)
+    parent = db.relationship("User", back_populates="favorite_planet")
+    child = db.relationship("Planets")
    
